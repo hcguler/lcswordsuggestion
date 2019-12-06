@@ -12,14 +12,19 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class Application {
+public class DataPreProcessing {
+
+  public static final String SOURCE_FILE="wordset/full.txt.tr";
+  public static final String TARGET_DIRECTORY="wordsetwithlength/";
+  public static final String FILE_NAME_SUFFIX="_length_words.txt";
+  public static final String SPACE_SPLIT_REGEX="\\s+";
 
   public static void main(String[] args) {
-    try (BufferedReader reader = new BufferedReader(new FileReader("wordset/full.txt.tr"))) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(SOURCE_FILE))) {
       String line = reader.readLine();
       List<String> wordList = new ArrayList<>();
       while (line != null) {
-        String[] split = line.split("\\s+");
+        String[] split = line.split(SPACE_SPLIT_REGEX);
         wordList.add(split[0]);
         line = reader.readLine();
       }
@@ -35,7 +40,7 @@ public class Application {
         List<String> stringList = mapStringUsingLength.get(integer);
         System.out.println(integer + " length word writing!");
         try (BufferedWriter bw
-                 = new BufferedWriter(new FileWriter("wordsetwithlength/"+integer + "_length_words.txt", true))) {
+                 = new BufferedWriter(new FileWriter(TARGET_DIRECTORY+integer + FILE_NAME_SUFFIX, true))) {
           bw.write(stringList.toString());
           bw.newLine();
           bw.flush();
