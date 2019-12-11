@@ -23,6 +23,8 @@ public class MapUtils {
       if (count < ApplicationConstants.RESULT_SIZE) {
         result.put(key, tmp.get(key));
         count++;
+      }else{
+        return getReverseSortedMap(resultMap);
       }
     }
     return getReverseSortedMap(result);
