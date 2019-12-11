@@ -1,10 +1,8 @@
 package util;
 
 import common.ApplicationConstants;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class DataPreProcessingUtils {
   public static Map<Integer, List<String>> initializeSizeWithStringMap() {
-    try (BufferedReader reader = new BufferedReader(new FileReader(ApplicationConstants.SOURCE_FILE))) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(ApplicationConstants.SOURCE_FILE), "UTF8"))) {
       String line = reader.readLine();
       List<String> wordList = new ArrayList<>();
       while (line != null) {

@@ -24,7 +24,7 @@ public class MapUtils {
         result.put(key, tmp.get(key));
         count++;
       }else{
-        return getReverseSortedMap(resultMap);
+        return getReverseSortedMap(result);
       }
     }
     return getReverseSortedMap(result);
