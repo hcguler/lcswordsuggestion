@@ -80,21 +80,21 @@ public class Application {
     }
 
     private static void initializeComponentPosition() {
-        calculateButton.setBounds(510, 10, 100, 40);
+        calculateButton.setBounds(360, 10, 100, 40);
         inputLabel.setBounds(10, 10, 100, 40);
         resultLabel.setBounds(10, 60, 100, 40);
-        inputField.setBounds(100, 10, 400, 40);
-        resultField.setBounds(100, 60, 400, 300);//x axis, y axis, width, height
+        inputField.setBounds(100, 10, 250, 40);
+        resultField.setBounds(100, 60, 250, 300);//x axis, y axis, width, height
         resultField.setEditable(false);
 
         final JScrollPane scrollableResultTextArea = new JScrollPane(resultField);
-        scrollableResultTextArea.setBounds(100, 60, 400, 300);
+        scrollableResultTextArea.setBounds(100, 60, 250, 300);
         jFrame.add(inputLabel);
         jFrame.add(inputField);
         jFrame.add(calculateButton);
         jFrame.add(resultLabel);
         jFrame.add(scrollableResultTextArea);
-        jFrame.setSize(630, 410);// width and  height
+        jFrame.setSize(480, 410);// width and  height
         jFrame.setLayout(null);
         jFrame.setVisible(true);
     }
