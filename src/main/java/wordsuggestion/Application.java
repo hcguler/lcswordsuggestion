@@ -45,10 +45,11 @@ public class Application {
     private static String getResultStringSet() {
         Map<String, Integer> reverseSortedSelectedSizeMap = MapUtils.getReverseSortedSelectedSizeMap(resultMap);
         StringBuilder stringBuilder = new StringBuilder("");
-        for (String str : reverseSortedSelectedSizeMap.keySet()) {
+        Map<String, Integer> sortedMap = MapUtils.getSortedMap(reverseSortedSelectedSizeMap);
+        for (String str : sortedMap.keySet()) {
             stringBuilder.append(str)
                     .append(" : ")
-                    .append(reverseSortedSelectedSizeMap.get(str))
+                    .append(sortedMap.get(str))
                     .append("\n");
         }
         return stringBuilder.toString();
