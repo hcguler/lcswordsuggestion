@@ -1,5 +1,7 @@
 package util;
 
+import java.util.Map;
+
 public class LcsUtils {
 
   //10 karakterden daha uzun kelimelerin karşılaştırılmasında sistemi çok yavaşlatır.
@@ -44,6 +46,14 @@ public class LcsUtils {
 
   private static int max(int a, int b) {
     return (a > b) ? a : b;
+  }
+
+  public static void calculateEditDistance(String inputWord, Map<String, Integer> lcsResult){
+    for (String s : lcsResult.keySet()) {
+      int editDistance = 0;
+      editDistance = inputWord.length()+s.length()-(2*lcsResult.get(s));
+      lcsResult.put(s,editDistance);
+    }
   }
 
 }

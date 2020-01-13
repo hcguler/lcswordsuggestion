@@ -59,6 +59,7 @@ public class Application {
         calculateLcsPutInMapString(length);
         calculateLcsPutInMapString(length - 1);
         calculateLcsPutInMapString(length + 1);
+        LcsUtils.calculateEditDistance(inputText,resultMap);
     }
 
 
