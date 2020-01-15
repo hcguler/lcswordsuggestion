@@ -1,14 +1,15 @@
 package util;
 
-import com.sun.deploy.util.ArrayUtil;
-import java.util.ArrayList;
-import java.util.Collections;
+import common.ApplicationConstants;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class KeyboardDistanceUtils {
+  public static final int EDIT_DISTANCE_1_CHAR_INCORRECT_VALUE=2;
+
   public static Map<Character, List<Character>> getQkeyboardCloseRangeCharacterMap(){
     Map<Character, List<Character>> qKeyboardCloseRangeCharacterMap=new HashMap<>();
     qKeyboardCloseRangeCharacterMap.put('q', getStringToCharArrayList("asw21"));
@@ -49,9 +50,56 @@ public class KeyboardDistanceUtils {
     return s.chars().mapToObj((i) -> Character.valueOf((char)i)).collect(Collectors.toList());
   }
 
-  public static int CalculateCloseRangeCharacter(Character c,Map<Character, List<Character>> keyboardCloseRangeCharMap){
-    keyboardCloseRangeCharMap.get(c);
+  public static Map<String,Double> calculateCloseRangeCharacter(String inputText, Map<String,Integer> resultMap){
+    Map<String,Double> closeRangeResultMap = new HashMap<>();
+    for (String s : resultMap.keySet()) {
+      int editDistance = resultMap.get(s);
+      if (s.length()==inputText.length()){
+        if (editDistance==EDIT_DISTANCE_1_CHAR_INCORRECT_VALUE){
+          //1 karakter farklı olduğu için klawye yakınlık kontrolü yapılır varsa uzaklık düşürülür.
+          if (checkCloseRangeCharakter(inputText,s)){
+            closeRangeResultMap.put(s, (double) editDistance- ApplicationConstants.DISTANCE_1_CLOSERANGECHARUSING_WEIGHT);
+          }else{
+            //klawye yakın karakter olma durumu mevcut değil değer aynen basılır.
+            closeRangeResultMap.put(s, (double) editDistance);
+          }
+        }else{
+          //uzaklık büyük olduğu için klawye yakınlığı veya fazla karakter basımı ele alınmadı.
+          closeRangeResultMap.put(s, (double) editDistance);
+        }
+      }else{
+        if (editDistance==1){
+          //fazladan veya eksik bir karakter basmış olabilir.
+          closeRangeResultMap.put(s, (double) editDistance- ApplicationConstants.DISTANCE_1_DIFFIRENT_LENGTH_WEIGHT);
+        }else{
+          //uzaklık büyük olduğu için klawye yakınlığı veya fazla karakter basımı ele alınmadı.
+          closeRangeResultMap.put(s, (double) editDistance);
+        }
+      }
+    }
+    return closeRangeResultMap;
+  }
 
-    return 0;
+  //girilen metindeki farklı karakterin klawyede yakın olduğu karakter listesi getirilir.
+  //yakın karakter listesinde 1 yakınlıklı kelimenin farklı karakteri varsa aslında bu kelimeyi girmek istemiş olabilir.
+  private static boolean checkCloseRangeCharakter(String inputText, String s) {
+    Map<Character, List<Character>> qkeyboardCloseRangeCharacterMap = getQkeyboardCloseRangeCharacterMap();
+    char[] inputTextCharArray = inputText.toCharArray();
+    char[] sCharArray = s.toCharArray();
+    int numberOfDifferenctCharUsingIndex=0;
+    boolean closeRangeCharExist=false;
+    for (int i = 0; i < inputText.length(); i++) {
+      if (inputTextCharArray[i]!=sCharArray[i]){
+        List<Character> characters = qkeyboardCloseRangeCharacterMap.get(inputTextCharArray[i]);
+        numberOfDifferenctCharUsingIndex++;
+        if (characters.contains(sCharArray[i])){
+          closeRangeCharExist=true;
+        }
+      }
+    }
+    if (numberOfDifferenctCharUsingIndex==1 && closeRangeCharExist){
+      return true;
+    }
+    return false;
   }
 }

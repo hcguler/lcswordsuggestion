@@ -27,26 +27,26 @@ public class MapUtils {
     }
     return getReverseSortedMap(result);
   }
-  public static Map<String,Integer> getSortedMap(Map<String,Integer> map) {
-    LinkedHashMap<String, Integer> linkedMap = new LinkedHashMap<>();
-    ArrayList<Map.Entry<String, Integer>> arr = new ArrayList<>();
-    for(Map.Entry<String, Integer> e: map.entrySet()) {
+  public static Map<String,Double> getSortedMap(Map<String,Double> map) {
+    LinkedHashMap<String, Double> linkedMap = new LinkedHashMap<>();
+    ArrayList<Map.Entry<String, Double>> arr = new ArrayList<>();
+    for(Map.Entry<String, Double> e: map.entrySet()) {
       arr.add(e);
     }
 
-    Comparator<Map.Entry<String, Integer>> valueComparator = new Comparator<Map.Entry<String, Integer>>() {
+    Comparator<Map.Entry<String, Double>> valueComparator = new Comparator<Map.Entry<String, Double>>() {
 
       @Override
-      public int compare(Map.Entry<String, Integer> e1, Map.Entry<String, Integer> e2) {
-        Integer v1 = e1.getValue();
-        Integer v2 = e2.getValue();
+      public int compare(Map.Entry<String, Double> e1, Map.Entry<String, Double> e2) {
+        Double v1 = e1.getValue();
+        Double v2 = e2.getValue();
         return v1.compareTo(v2);
       }
     };
 
     Collections.sort(arr, valueComparator);
 
-    for(Map.Entry<String, Integer> e: arr) {
+    for(Map.Entry<String, Double> e: arr) {
       linkedMap.put(e.getKey(), e.getValue());
     }
     return linkedMap;

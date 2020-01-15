@@ -2,6 +2,7 @@ package wordsuggestion;
 
 import common.ApplicationConstants;
 import util.DataPreProcessingUtils;
+import util.KeyboardDistanceUtils;
 import util.LcsUtils;
 import util.MapUtils;
 
@@ -45,7 +46,8 @@ public class Application {
     private static String getResultStringSet() {
         Map<String, Integer> reverseSortedSelectedSizeMap = MapUtils.getReverseSortedSelectedSizeMap(resultMap);
         StringBuilder stringBuilder = new StringBuilder("");
-        Map<String, Integer> sortedMap = MapUtils.getSortedMap(reverseSortedSelectedSizeMap);
+        Map<String, Double> stringDoubleMap = KeyboardDistanceUtils.calculateCloseRangeCharacter(inputText, reverseSortedSelectedSizeMap);
+        Map<String, Double> sortedMap = MapUtils.getSortedMap(stringDoubleMap);
         for (String str : sortedMap.keySet()) {
             stringBuilder.append(str)
                     .append(" : ")
@@ -75,9 +77,9 @@ public class Application {
                 }
             }
         }
-
-        resultField.setText(getResultStringSet());
-        resultField.update(resultField.getGraphics());
+//         her karakter için lcs sonucu yazdırma.
+//        resultField.setText(getResultStringSet());
+//        resultField.update(resultField.getGraphics());
         System.out.println(length + " character calculation completed....");
     }
 
